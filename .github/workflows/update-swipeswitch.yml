@@ -1,0 +1,38 @@
+# Keeps Casks/swipeswitch.rb on the latest SwipeSwitch release. Runs daily and on demand; it only reads
+# public release info, so it needs no tokens beyond this repo's own.
+name: Update SwipeSwitch
+
+on:
+  schedule:
+    - cron: "17 6 * * *"   # daily
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write   # commit the updated cask to this repo
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Update the cask if there's a new release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag=$(gh release view --repo khameedk/SwipeSwitch --json tagName --jq .tagName)
+          version="${tag#v}"
+          current=$(sed -n 's/^  version "\(.*\)"$/\1/p' Casks/swipeswitch.rb)
+          if [ "$version" = "$current" ]; then
+            echo "Already on $version"
+            exit 0
+          fi
+          sha=$(gh release download "$tag" --repo khameedk/SwipeSwitch --pattern "SwipeSwitch-$tag.zip.sha256" --output - | awk '{print $1}')
+          echo "$sha" | grep -Eq '^[0-9a-f]{64}$' || { echo "Bad checksum: $sha"; exit 1; }
+          sed -i "s/^  version \".*\"$/  version \"$version\"/; s/^  sha256 \".*\"$/  sha256 \"$sha\"/" Casks/swipeswitch.rb
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "swipeswitch $version"
+          git push
