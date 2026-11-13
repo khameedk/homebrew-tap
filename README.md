@@ -4,7 +4,6 @@ Homebrew tap for [SwipeSwitch](https://github.com/khameedk/SwipeSwitch): switch 
 three-finger trackpad swipe.
 
 ```bash
-brew tap khameedk/tap
 brew trust --tap khameedk/tap
 brew install --cask khameedk/tap/swipeswitch
 ```
