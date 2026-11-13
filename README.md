@@ -5,12 +5,12 @@ three-finger trackpad swipe.
 
 ```bash
 brew tap khameedk/tap
-brew trust --cask khameedk/tap/swipeswitch
+brew trust --tap khameedk/tap
 brew install --cask khameedk/tap/swipeswitch
 ```
 
-Homebrew asks you to trust casks from taps other than its own before it installs them; the `brew trust` line
-does that for SwipeSwitch only (undo with `brew untrust --cask khameedk/tap/swipeswitch`).
+Homebrew asks you to trust taps other than its own before it installs from them; the `brew trust` line trusts
+this tap, which only contains SwipeSwitch (undo with `brew untrust --tap khameedk/tap`).
 
 SwipeSwitch isn't notarized by Apple, so macOS blocks its first launch: open **System Settings › Privacy &
 Security**, scroll down and click **Open Anyway**, then grant Accessibility access when asked.
