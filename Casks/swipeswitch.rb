@@ -1,6 +1,6 @@
 cask "swipeswitch" do
-  version "1.2.0"
-  sha256 "4834b1167192881a481a14f17ad4203e99be0ab9086497b52c5e4f2d9212741e"
+  version "1.2.1"
+  sha256 "4f5b7b17adffcbe570cddfc948933a1f653c54050ce1191de17707b54b7641d2"
 
   url "https://github.com/khameedk/SwipeSwitch/releases/download/v#{version}/SwipeSwitch-v#{version}.zip"
   name "SwipeSwitch"
